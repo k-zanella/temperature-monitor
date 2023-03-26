@@ -17,6 +17,7 @@ LiquidCrystal lcd(RS, E, D4, D5, D6, D7);
 DHT           dht(DHT_PIN, DHT_TYPE);
 
 void setup() {
+  Serial.begin(9600);
   lcd.begin(16, 2);
   dht.begin();
 }
@@ -33,14 +34,18 @@ void loop() {
     return;
   }
 
-  lcd.setCursor(0, 0);
-  lcd.print(String(temp) + "C" + " -- ");
+  String out_temp = String(temp) + "C";
+  String out_hic  = String(hic) + "C";
+  String out_hum  = String(hum) + "%";
 
-  lcd.setCursor(10, 0);
-  lcd.print(String(hic) + "C");
+  lcd.setCursor(0, 0);
+  lcd.print(out_temp);
+
+  lcd.setCursor((16 - (out_hic.length())), 0);
+  lcd.print(out_hic);
 
   lcd.setCursor(0, 1);
-  lcd.print(String(hum) + "%");
+  lcd.print(out_hum);
 
   delay(1000);
 }
